@@ -10,13 +10,6 @@
           <include name="ParticipantFile_Fedwire"/>
         </methods>
       </class> <!-- IndividualFlows.Reports_ParticipantFileFedwire -->
-      <class name="IndividualFlows.Reports_AccountReportingFednow">
-        <methods>
-          <include name="AccountReportingTest_FedNow"/>
-          <include name="tearDown"/>
-          <include name="setup"/>
-        </methods>
-      </class> <!-- IndividualFlows.Reports_AccountReportingFednow -->
     </classes>
   </test> <!-- Test(failed) -->
 </suite> <!-- Failed suite [Suite] -->
