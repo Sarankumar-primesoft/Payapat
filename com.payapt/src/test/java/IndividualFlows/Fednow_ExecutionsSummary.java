@@ -101,6 +101,7 @@ public class Fednow_ExecutionsSummary extends BaseClass{
 
 		clickelementwithname(exectuionpage.downloadicon, "Download btn");
 		Thread.sleep(60000);
+		Extentlogger.info("Waited for 1 minute to download the executed results.",true);
 	}	
 	
 }
