@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><urn:FedNowOutgoing xmlns:urn="urn:fednow:outgoing:v001"
+                xmlns:h="urn:iso:std:iso:20022:tech:xsd:head.001.001.02"
+                xmlns:p="urn:iso:std:iso:20022:tech:xsd:admi.002.001.01"><urn:FedNowOutgoingMessage><urn:FedNowMessageReject><h:AppHdr xmlns:h="urn:iso:std:iso:20022:tech:xsd:head.001.001.02" xmlns:xsi="
+http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="urn:iso:std:iso:20022:tech:xsd:head.001.001.02 BusinessApplicationHeader_head_001_001_02_20210617.xsd"><h:Fr>
+                    <h:FIId>
+                        <h:FinInstnId>
+                            <h:ClrSysMmbId>
+                                <h:MmbId>021150706</h:MmbId>
+                            </h:ClrSysMmbId>
+                        </h:FinInstnId>
+                    </h:FIId>
+                </h:Fr>
+                <h:To>
+                    <h:FIId>
+                        <h:FinInstnId>
+                            <h:ClrSysMmbId>
+                                <h:MmbId>021040079</h:MmbId>
+                            </h:ClrSysMmbId>
+                        </h:FinInstnId>
+                    </h:FIId>
+                </h:To>
+                <h:BizMsgIdr>20250612021040079DGbjp9xvT36181846</h:BizMsgIdr>
+                <h:MsgDefIdr>admi.002.001.01</h:MsgDefIdr>
+                <h:MktPrctc>
+                    <h:Regy>www2.swift.com/mystandards/#/group/Federal_Reserve_Financial_Services/FedNow_Service</h:Regy>
+                    <h:Id>frb.fednow.01</h:Id>
+                </h:MktPrctc>
+                <h:CreDt>2025-06-12T06:48:03-04:00</h:CreDt>
+                <h:BizPrcgDt>2025-06-12T00:00:00-04:00</h:BizPrcgDt>
+            </h:AppHdr><p:Document xmlns:p="urn:iso:std:iso:20022:tech:xsd:admi.002.001.01" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:iso:std:iso:20022:tech:xsd:admi.002.001.01 MessageReject_admi_002.xsd "><p:admi.002.001.01>
+                    <p:RltdRef>
+                        <p:Ref>20250612021040079J9aTBKh5D13255949</p:Ref>
+                    </p:RltdRef>
+                    <p:Rsn>
+                        <p:RjctgPtyRsn>T505</p:RjctgPtyRsn>
+                        <p:RjctnDtTm>2025-06-12T06:48:03-04:00</p:RjctnDtTm>
+                        <p:RsnDesc>ISO message does not meet the FedNow Service ISO 20022 message specifications for one or multiple elements.</p:RsnDesc>
+                    </p:Rsn>
+                </p:admi.002.001.01>
+            </p:Document></urn:FedNowMessageReject></urn:FedNowOutgoingMessage></urn:FedNowOutgoing>

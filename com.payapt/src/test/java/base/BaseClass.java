@@ -205,24 +205,26 @@ public class BaseClass {
 		}
 	}
 	public void zipExtentReportFolder() throws IOException {
-		String sourceDirPath = System.getProperty("user.dir") + File.separator + "extent-report";
-		String zipFilePath = System.getProperty("user.dir") + File.separator + "ExtentReport.zip";
+	    String sourceDirPath = System.getProperty("user.dir") + File.separator + "extent-report";
+	    String zipFilePath = sourceDirPath + File.separator + "ExtentReport.zip";
 
-		try (FileOutputStream fos = new FileOutputStream(zipFilePath);
-				ZipOutputStream zos = new ZipOutputStream(fos)) {
+	    try (FileOutputStream fos = new FileOutputStream(zipFilePath);
+	         ZipOutputStream zos = new ZipOutputStream(fos)) {
 
-			Path sourceDir = Paths.get(sourceDirPath);
-			Files.walk(sourceDir).filter(path -> !Files.isDirectory(path)).forEach(path -> {
-				ZipEntry zipEntry = new ZipEntry(sourceDir.relativize(path).toString());
-				try {
-					zos.putNextEntry(zipEntry);
-					Files.copy(path, zos);
-					zos.closeEntry();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			});
-		}
+	        Path sourceDir = Paths.get(sourceDirPath);
+	        Files.walk(sourceDir)
+	             .filter(path -> !Files.isDirectory(path) && !path.endsWith("ExtentReport.zip")) // skip the zip file itself
+	             .forEach(path -> {
+	                 ZipEntry zipEntry = new ZipEntry(sourceDir.relativize(path).toString());
+	                 try {
+	                     zos.putNextEntry(zipEntry);
+	                     Files.copy(path, zos);
+	                     zos.closeEntry();
+	                 } catch (IOException e) {
+	                     e.printStackTrace();
+	                 }
+	             });
+	    }
 	}
 
 
