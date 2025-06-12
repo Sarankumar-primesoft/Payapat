@@ -103,7 +103,8 @@ public class Fedwire_ExecutionsSummaryTest extends BaseClass{
 		}
 
 		clickelementwithname(exectuionpage.downloadicon, "Download btn");
-		//		verifyResultsDownload();
+		Thread.sleep(60000);
+		Extentlogger.info("Waited for 1 minute to download the executed results.",true);
 	}	
 
 }

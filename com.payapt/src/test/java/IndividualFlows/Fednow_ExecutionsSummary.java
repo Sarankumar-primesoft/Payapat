@@ -100,7 +100,7 @@ public class Fednow_ExecutionsSummary extends BaseClass{
 		}
 
 		clickelementwithname(exectuionpage.downloadicon, "Download btn");
-		//		    verifyResultsDownload();	
-}	
+		Thread.sleep(60000);
+	}	
 	
 }

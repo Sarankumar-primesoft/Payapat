@@ -2,8 +2,12 @@ package base;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.Duration;
@@ -17,6 +21,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
@@ -110,20 +116,31 @@ public class BaseClass {
 		switch (browserName.toLowerCase()) {
 		case "chrome":
 			ChromeOptions chromeOptions = new ChromeOptions();
-            if (isHeadless) {
-                chromeOptions.addArguments("--headless=new");
-                chromeOptions.addArguments("--window-size=1920,1080");
-                chromeOptions.addArguments("--disable-gpu");
-            }
-            chromeOptions.setExperimentalOption("prefs", Map.of(
-                "download.default_directory", "C:\\Downloads",
-                "profile.default_content_settings.popups", 0,
-                "profile.content_settings.exceptions.automatic_downloads.*.setting", 1
-            ));
-            driver = new ChromeDriver(chromeOptions);
-            js = (JavascriptExecutor) driver;
-    		actions= new Actions(driver);
-            break;
+			String downloadPath = System.getProperty("user.dir") + File.separator + "extent-report";
+			cleanDownloadFolder(downloadPath);
+			File file = new File(downloadPath);
+			if (!file.exists()) file.mkdirs();
+
+			Map<String, Object> chromePrefs = new HashMap<>();
+			chromePrefs.put("download.default_directory", downloadPath);
+			chromePrefs.put("download.prompt_for_download", false);
+			chromePrefs.put("plugins.always_open_pdf_externally", true);
+
+			chromeOptions.setExperimentalOption("prefs", chromePrefs);
+			if (isHeadless) {
+				chromeOptions.addArguments("--headless=new");
+				chromeOptions.addArguments("--window-size=1920,1080");
+				chromeOptions.addArguments("--disable-gpu");
+			}
+			//            chromeOptions.setExperimentalOption("prefs", Map.of(
+			//                "download.default_directory", "C:\\Downloads",
+			//                "profile.default_content_settings.popups", 0,
+			//                "profile.content_settings.exceptions.automatic_downloads.*.setting", 1
+			//            ));
+			driver = new ChromeDriver(chromeOptions);
+			js = (JavascriptExecutor) driver;
+			actions= new Actions(driver);
+			break;
 
 		case "firefox":
 			driver = new FirefoxDriver();
@@ -171,11 +188,44 @@ public class BaseClass {
 			Browserinfo();
 			System.out.println("WebDriver closed.");
 			ExtentReport.flushreport();  
-			//			driver.quit();
+			zipExtentReportFolder();
+			driver.quit();
 		}
 	}
 	/* --------------------------------------------------------------------------------------------------------------------*/
 	/*Methods Created for Reports/System Messages in Payapt */
+	public void cleanDownloadFolder(String path) {
+		File downloadDir = new File(path);
+		if (downloadDir.exists() && downloadDir.isDirectory()) {
+			for (File file : downloadDir.listFiles()) {
+				if (!file.isDirectory()) {
+					file.delete(); // Delete files only
+				}
+			}
+		}
+	}
+	public void zipExtentReportFolder() throws IOException {
+		String sourceDirPath = System.getProperty("user.dir") + File.separator + "extent-report";
+		String zipFilePath = System.getProperty("user.dir") + File.separator + "ExtentReport.zip";
+
+		try (FileOutputStream fos = new FileOutputStream(zipFilePath);
+				ZipOutputStream zos = new ZipOutputStream(fos)) {
+
+			Path sourceDir = Paths.get(sourceDirPath);
+			Files.walk(sourceDir).filter(path -> !Files.isDirectory(path)).forEach(path -> {
+				ZipEntry zipEntry = new ZipEntry(sourceDir.relativize(path).toString());
+				try {
+					zos.putNextEntry(zipEntry);
+					Files.copy(path, zos);
+					zos.closeEntry();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+		}
+	}
+
+
 
 	public void routingnumberselect(List<WebElement> ListElement,String Routingnum) {
 		boolean found = false;
@@ -402,11 +452,11 @@ public class BaseClass {
 
 	}
 
-	
+
 	/*END of Creaeted methods for Reports/System Messages in Payapt */
 	/* --------------------------------------------------------------------------------------------------------------------*/
 
-	
+
 	/* Common Utility Methods*/
 
 	public static void clickusingaction(WebElement ele) throws InterruptedException {

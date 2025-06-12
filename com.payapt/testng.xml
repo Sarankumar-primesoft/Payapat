@@ -3,13 +3,13 @@
 <suite name="Suite">
 	<test thread-count="5" name="Test">
 		<classes>
-			<class name="com.test.LoginTest" />
-			<!--			<class name="com.test.MultiBatchsTest" />-->
+			<!--<class name="com.test.LoginTest" />
+			<class name="com.test.MultiBatchsTest" />
 			<class name="com.test.Reports_AccountReportingTest" />
 			<class name="com.test.Reports_RetrivalRequestTest" />
 			<class name="com.test.Reports_BroadcastMessagesTest" />
 			<class name="com.test.Reports_ParticipantFileTest" />
-			<class name="com.test.ExecutionsSummaryTest" />
+			<class name="com.test.ExecutionsSummaryTest" />-->
 		</classes>
 	</test> <!--
 	Test -->
