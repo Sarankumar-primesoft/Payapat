@@ -49,6 +49,7 @@ import org.testng.asserts.SoftAssert;
 
 import com.ExtentReport.ExtentReport;
 import com.ExtentReport.Extentlogger;
+import com.configure.Factory;
 import com.pages.BatchPage;
 import com.pages.ExecutionsSummaryPage;
 import com.pages.LoginPage;
@@ -56,7 +57,6 @@ import com.pages.Reports_AccountReportingPage;
 import com.pages.Reports_BroadcastMessagesPage;
 import com.pages.Reports_ParticpantFilePage;
 import com.pages.Reports_RetrivalRequestPage;
-import com.test.ExecutionsSummaryTest;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -206,7 +206,7 @@ public class BaseClass {
 	}
 	public void zipExtentReportFolder() throws IOException {
 	    String sourceDirPath = System.getProperty("user.dir") + File.separator + "extent-report";
-	    String zipFilePath = sourceDirPath + File.separator + "ExtentReport.zip";
+	    String zipFilePath = sourceDirPath + File.separator + "ExtentReport"+Factory.getcurrenttime()+".zip";
 
 	    try (FileOutputStream fos = new FileOutputStream(zipFilePath);
 	         ZipOutputStream zos = new ZipOutputStream(fos)) {
