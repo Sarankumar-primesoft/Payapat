@@ -102,6 +102,7 @@ public class Extentlogger extends BaseClass {
 //
 	
 	public static String Base64image() {
+		//used "data:image/png;base64," to solve the screenshot not displayed in extentreport on the jenkins/headless mode executed
 		return "data:image/png;base64," + ((TakesScreenshot)driver).getScreenshotAs(OutputType.BASE64);
 	}
 	/**
