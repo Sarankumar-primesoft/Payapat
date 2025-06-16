@@ -27,6 +27,7 @@ import java.util.zip.ZipOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
@@ -115,33 +116,35 @@ public class BaseClass {
 
 		switch (browserName.toLowerCase()) {
 		case "chrome":
-			ChromeOptions chromeOptions = new ChromeOptions();
-			String downloadPath = System.getProperty("user.dir") + File.separator + "extent-report";
-			cleanDownloadFolder(downloadPath);
-			File file = new File(downloadPath);
-			if (!file.exists()) file.mkdirs();
+		    ChromeOptions chromeOptions = new ChromeOptions();
+		    
+		    String downloadPath = System.getProperty("user.dir") + File.separator + "extent-report";
+		    cleanDownloadFolder(downloadPath);
+		    File file = new File(downloadPath);
+		    if (!file.exists()) file.mkdirs();
 
-			Map<String, Object> chromePrefs = new HashMap<>();
-			chromePrefs.put("download.default_directory", downloadPath);
-			chromePrefs.put("download.prompt_for_download", false);
-			chromePrefs.put("plugins.always_open_pdf_externally", true);
+		    Map<String, Object> chromePrefs = new HashMap<>();
+		    chromePrefs.put("download.default_directory", downloadPath);
+		    chromePrefs.put("download.prompt_for_download", false);
+		    chromePrefs.put("plugins.always_open_pdf_externally", true);
+		    chromePrefs.put("profile.default_content_settings.popups", 0);
+		    chromePrefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
 
-			chromeOptions.setExperimentalOption("prefs", chromePrefs);
-			if (isHeadless) {
-				chromeOptions.addArguments("--headless");
-				chromeOptions.addArguments("--window-size=1920,1080");
-				chromeOptions.addArguments("--disable-gpu");
-			}
-			//            chromeOptions.setExperimentalOption("prefs", Map.of(
-			//                "download.default_directory", "C:\\Downloads",
-			//                "profile.default_content_settings.popups", 0,
-			//                "profile.content_settings.exceptions.automatic_downloads.*.setting", 1
-			//            ));
-			driver = new ChromeDriver(chromeOptions);
-			js = (JavascriptExecutor) driver;
-			actions= new Actions(driver);
-			break;
+		    chromeOptions.setExperimentalOption("prefs", chromePrefs);
 
+		    if (isHeadless) {
+		        chromeOptions.addArguments("--headless=new");
+		        chromeOptions.addArguments("--window-size=1920,1080"); // Mandatory
+		        chromeOptions.addArguments("--disable-gpu");
+		        chromeOptions.addArguments("--no-sandbox");
+		        chromeOptions.addArguments("--disable-dev-shm-usage");
+		    }
+
+		    driver = new ChromeDriver(chromeOptions);
+		    driver.manage().window().setSize(new Dimension(1920, 1080));
+		    js = (JavascriptExecutor) driver;
+		    actions = new Actions(driver);
+		    break;
 		case "firefox":
 			driver = new FirefoxDriver();
 			break;
@@ -164,7 +167,7 @@ public class BaseClass {
 				"profile.content_settings.exceptions.automatic_downloads.*.setting", 1
 				));
 		options.addArguments("--headless=new"); // or just "--headless" for older versions
-		options.addArguments("--window-size=1920,1080"); // IMPORTANT!
+		options.addArguments("--window-size=1920,1080");// IMPORTANT!
 		options.addArguments("--disable-gpu"); // Optional but recommended
 
 		System.out.println("driver : "+ driver );		
