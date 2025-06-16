@@ -221,20 +221,21 @@ public class BaseClass {
 	        Path sourceDir = Paths.get(sourceDirPath);
 	        
 	        Files.walk(sourceDir)
-	            .filter(path -> !Files.isDirectory(path))
-	            .forEach(path -> {
-	                try {
-	                    // Construct ZIP entry path as: extent-report-<timestamp>/subfolders...
-	                    String entryName = "extent-report-" + timestamp + File.separator +
+	        .filter(path -> !Files.isDirectory(path))
+	        .filter(path -> !path.getFileName().toString().equals("ExtentReport.zip")) // 👈 exclude zip itself
+	        .forEach(path -> {
+	            try {
+	                String entryName = "extent-report-" + timestamp + File.separator +
 	                        sourceDir.relativize(path).toString().replace("\\", "/");
 
-	                    zos.putNextEntry(new ZipEntry(entryName));
-	                    Files.copy(path, zos);
-	                    zos.closeEntry();
-	                } catch (IOException e) {
-	                    e.printStackTrace();
-	                }
-	            });
+	                zos.putNextEntry(new ZipEntry(entryName));
+	                Files.copy(path, zos);
+	                zos.closeEntry();
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        });
+
 	    }
 	}
 
