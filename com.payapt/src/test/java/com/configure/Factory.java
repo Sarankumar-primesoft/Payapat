@@ -3,6 +3,8 @@ package com.configure;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Properties;
 
@@ -44,9 +46,14 @@ public class Factory extends BaseClass {
 		}
 	}
 
+//	public static String getcurrenttime() {
+//		Date currentdate = new Date();
+//		String datafilename = currentdate.toString().replace(" ","-").replace(":", "-");
+//		return datafilename;
+//	}
 	public static String getcurrenttime() {
-		Date currentdate = new Date();
-		String datafilename = currentdate.toString().replace(" ","-").replace(":", "-");
-		return datafilename;
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmm");
+	    return LocalDateTime.now().format(formatter);
 	}
+
 }
