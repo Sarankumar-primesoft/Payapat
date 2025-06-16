@@ -63,7 +63,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseClass {
 
-	public static Properties prop ;
+	public static Properties prop;
 	public static SoftAssert Softassert;
 	public static Actions actions;
 
@@ -85,11 +85,11 @@ public class BaseClass {
 		PageFactory.initElements(driver, this);
 	}
 
-	public static void loadProperties()
-	{
+	public static void loadProperties() {
 		prop = new Properties();
 		try {
-			FileInputStream ip=new FileInputStream(System.getProperty("user.dir")+"/Configuration/config.properties"); 
+			FileInputStream ip = new FileInputStream(
+					System.getProperty("user.dir") + "/Configuration/config.properties");
 			prop.load(ip);
 		} catch (Exception e) {
 			throw new RuntimeException("Error loading config.properties", e);
@@ -97,8 +97,7 @@ public class BaseClass {
 	}
 
 	@BeforeSuite
-	public void setup() throws IOException
-	{
+	public void setup() throws IOException {
 		ExtentReport.invokereport();
 		ExtentReport.createTest("Setup Execution");
 
@@ -108,43 +107,39 @@ public class BaseClass {
 		WebDriverManager.firefoxdriver().setup();
 		WebDriverManager.edgedriver().setup();
 
-		String browserName=prop.getProperty("browser");
-//		boolean isHeadless = Boolean.parseBoolean(prop.getProperty("headless", "false"));
-//		if (browserName == null) {
-//			throw new RuntimeException("Browser property not set in config file!");
-//		}
+		String browserName = prop.getProperty("browser");
 
 		switch (browserName.toLowerCase()) {
+
 		case "chrome":
-		    ChromeOptions chromeOptions = new ChromeOptions();
-		    
-		    String downloadPath = System.getProperty("user.dir") + File.separator + "extent-report";
-		    cleanDownloadFolder(downloadPath);
-		    File file = new File(downloadPath);
-		    if (!file.exists()) file.mkdirs();
+			ChromeOptions chromeOptions = new ChromeOptions();
 
-		    Map<String, Object> chromePrefs = new HashMap<>();
-		    chromePrefs.put("download.default_directory", downloadPath);
-		    chromePrefs.put("download.prompt_for_download", false);
-		    chromePrefs.put("plugins.always_open_pdf_externally", true);
-		    chromePrefs.put("profile.default_content_settings.popups", 0);
-		    chromePrefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
+			String downloadPath = System.getProperty("user.dir") + File.separator + "extent-report";
+			cleanDownloadFolder(downloadPath);
+			File file = new File(downloadPath);
+			if (!file.exists())
+				file.mkdirs();
 
-		    chromeOptions.setExperimentalOption("prefs", chromePrefs);
+			Map<String, Object> chromePrefs = new HashMap<>();
+			chromePrefs.put("download.default_directory", downloadPath);
+			chromePrefs.put("download.prompt_for_download", false);
+			chromePrefs.put("plugins.always_open_pdf_externally", true);
+			chromePrefs.put("profile.default_content_settings.popups", 0);
+			chromePrefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
 
-//		    if (isHeadless) {
-		        chromeOptions.addArguments("--headless=new");
-		        chromeOptions.addArguments("--window-size=1920,1080"); // Mandatory
-		        chromeOptions.addArguments("--disable-gpu");
-		        chromeOptions.addArguments("--no-sandbox");
-		        chromeOptions.addArguments("--disable-dev-shm-usage");
-//		    }
+			chromeOptions.setExperimentalOption("prefs", chromePrefs);
 
-		    driver = new ChromeDriver(chromeOptions);
-		    driver.manage().window().setSize(new Dimension(1920, 1080));
-		    js = (JavascriptExecutor) driver;
-		    actions = new Actions(driver);
-		    break;
+			chromeOptions.addArguments("--headless=new");
+			chromeOptions.addArguments("--window-size=1920,1080"); // Mandatory
+			chromeOptions.addArguments("--disable-gpu");
+			chromeOptions.addArguments("--no-sandbox");
+			chromeOptions.addArguments("--disable-dev-shm-usage");
+
+			driver = new ChromeDriver(chromeOptions);
+//			driver.manage().window().setSize(new Dimension(1920, 1080));
+			js = (JavascriptExecutor) driver;
+			actions = new Actions(driver);
+			break;
 		case "firefox":
 			driver = new FirefoxDriver();
 			break;
@@ -161,42 +156,42 @@ public class BaseClass {
 		BrowserVersion = capabilities.getBrowserVersion();
 
 		ChromeOptions options = new ChromeOptions();
-		options.setExperimentalOption("prefs", Map.of(
-				"download.default_directory", "C:\\Downloads",
-				"profile.default_content_settings.popups", 0,
-				"profile.content_settings.exceptions.automatic_downloads.*.setting", 1
-				));
+		options.setExperimentalOption("prefs",
+				Map.of("download.default_directory", "C:\\Downloads", "profile.default_content_settings.popups", 0,
+						"profile.content_settings.exceptions.automatic_downloads.*.setting", 1));
 		options.addArguments("--headless=new"); // or just "--headless" for older versions
 		options.addArguments("--window-size=1920,1080");// IMPORTANT!
 		options.addArguments("--disable-gpu"); // Optional but recommended
 
-		System.out.println("driver : "+ driver );		
+		System.out.println("driver : " + driver);
 
 		implicitWait(10);
 		pageLoadTimeOut(driver, 40);
 
 		driver.manage().window().maximize();
-		launchUrl(driver,prop.getProperty("testurl"));
-		if (driver.getTitle().equalsIgnoreCase(prop.getProperty("homepage-title"))) 
-		{	
+		launchUrl(driver, prop.getProperty("testurl"));
+		if (driver.getTitle().equalsIgnoreCase(prop.getProperty("homepage-title"))) {
 			System.out.println(driver.getTitle());
 		}
 
 	}
-
 
 	@AfterSuite
 	public void tearDown() throws Exception {
 		if (driver != null) {
 			Browserinfo();
 			System.out.println("WebDriver closed.");
-			ExtentReport.flushreport();  
+			ExtentReport.flushreport();
 			zipExtentReportFolder();
 			driver.quit();
 		}
 	}
-	/* --------------------------------------------------------------------------------------------------------------------*/
-	/*Methods Created for Reports/System Messages in Payapt */
+
+	/*
+	 * -----------------------------------------------------------------------------
+	 * ---------------------------------------
+	 */
+	/* Methods Created for Reports/System Messages in Payapt */
 	public void cleanDownloadFolder(String path) {
 		File downloadDir = new File(path);
 		if (downloadDir.exists() && downloadDir.isDirectory()) {
@@ -207,42 +202,38 @@ public class BaseClass {
 			}
 		}
 	}
+
 	public void zipExtentReportFolder() throws IOException {
-	    String timestamp = Factory.getcurrenttime(); // get timestamp
-	    String sourceDirPath = System.getProperty("user.dir") + File.separator + "extent-report";
-	    String parentDir = System.getProperty("user.dir");
+		String timestamp = Factory.getcurrenttime(); // get timestamp
+		String sourceDirPath = System.getProperty("user.dir") + File.separator + "extent-report";
+		String parentDir = System.getProperty("user.dir");
 
-	    //Path of the zip file folder
-	    String zipFilePath = sourceDirPath + File.separator + "ExtentReport.zip";
-	    
-	    try (FileOutputStream fos = new FileOutputStream(zipFilePath);
-	         ZipOutputStream zos = new ZipOutputStream(fos)) {
-	        
-	        Path sourceDir = Paths.get(sourceDirPath);
-	        
-	        Files.walk(sourceDir)
-	        .filter(path -> !Files.isDirectory(path))
-	        .filter(path -> !path.getFileName().toString().equals("ExtentReport.zip")) // 👈 exclude zip itself
-	        .forEach(path -> {
-	            try {
-	                String entryName = "extent-report-" + timestamp + File.separator +
-	                        sourceDir.relativize(path).toString().replace("\\", "/");
+		// Path of the zip file folder
+		String zipFilePath = sourceDirPath + File.separator + "ExtentReport.zip";
 
-	                zos.putNextEntry(new ZipEntry(entryName));
-	                Files.copy(path, zos);
-	                zos.closeEntry();
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	        });
+		try (FileOutputStream fos = new FileOutputStream(zipFilePath); ZipOutputStream zos = new ZipOutputStream(fos)) {
 
-	    }
+			Path sourceDir = Paths.get(sourceDirPath);
+
+			Files.walk(sourceDir).filter(path -> !Files.isDirectory(path))
+					.filter(path -> !path.getFileName().toString().equals("ExtentReport.zip")) // 👈 exclude zip itself
+					.forEach(path -> {
+						try {
+							String entryName = "extent-report-" + timestamp + File.separator
+									+ sourceDir.relativize(path).toString().replace("\\", "/");
+
+							zos.putNextEntry(new ZipEntry(entryName));
+							Files.copy(path, zos);
+							zos.closeEntry();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					});
+
+		}
 	}
 
-
-
-
-	public void routingnumberselect(List<WebElement> ListElement,String Routingnum) {
+	public void routingnumberselect(List<WebElement> ListElement, String Routingnum) {
 		boolean found = false;
 
 		for (WebElement dropdownvalue : ListElement) {
@@ -267,8 +258,7 @@ public class BaseClass {
 		}
 	}
 
-	public void selectoptionfromList(WebElement DropdownElement,List<WebElement> Listelements, String value)
-	{
+	public void selectoptionfromList(WebElement DropdownElement, List<WebElement> Listelements, String value) {
 		clickelementwithname(DropdownElement, "Select dropdown.");
 		boolean matchFound = false;
 		String expectedValue = value;
@@ -288,7 +278,7 @@ public class BaseClass {
 	}
 
 	// Method to wait until loader disappears
-	public boolean waitForLoaderToDisappear(WebElement element,int max,int interval) {
+	public boolean waitForLoaderToDisappear(WebElement element, int max, int interval) {
 		int maxWaitTimeInSeconds = max;
 		int pollIntervalInSeconds = interval;
 
@@ -315,7 +305,7 @@ public class BaseClass {
 		}
 
 		System.out.println("Loader is still visible after waiting " + maxWaitTimeInSeconds + " seconds.");
-		Extentlogger.fail("Loader is still visible after waiting " + maxWaitTimeInSeconds + " seconds.",true);
+		Extentlogger.fail("Loader is still visible after waiting " + maxWaitTimeInSeconds + " seconds.", true);
 		return false;
 	}
 
@@ -323,7 +313,8 @@ public class BaseClass {
 	public void datePicker() throws InterruptedException {
 		// Step 1: Calculate previous valid weekday
 		LocalDate today = LocalDate.now();
-		//			    LocalDate today = LocalDate.of(2025, 6, 2); // Test case for June 2nd it will select may 30, because previous dates fall on weekend
+		// LocalDate today = LocalDate.of(2025, 6, 2); // Test case for June 2nd it will
+		// select may 30, because previous dates fall on weekend
 		LocalDate date = today.minusDays(1);
 
 		WebElement Startdate = driver.findElement(By.xpath("//input[@placeholder='Start date']"));
@@ -334,7 +325,8 @@ public class BaseClass {
 			date = date.minusDays(1);
 		}
 
-		// Handle month-end case (if today is first of month, select last business day of previous month)
+		// Handle month-end case (if today is first of month, select last business day
+		// of previous month)
 		if (today.getDayOfMonth() == 1) {
 			date = today.minusDays(1); // Last day of previous month
 			// Adjust for weekend if needed
@@ -348,14 +340,16 @@ public class BaseClass {
 		selectDateFromCalendar(Enddate, date, "End Date");
 	}
 
-	private void selectDateFromCalendar(WebElement dateField, LocalDate targetDate, String label) throws InterruptedException {
+	private void selectDateFromCalendar(WebElement dateField, LocalDate targetDate, String label)
+			throws InterruptedException {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		dateField.click(); // Open the calendar popup
 
 		// Adjust calendar view
 		adjustCalendarToTarget(targetDate, wait);
 
-		// Select the actual date - now with improved logic to get the most recent occurrence
+		// Select the actual date - now with improved logic to get the most recent
+		// occurrence
 		selectCorrectDateFromDualCalendar(targetDate, wait);
 
 		Extentlogger.pass("Selected " + label + ": " + targetDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
@@ -371,16 +365,19 @@ public class BaseClass {
 		WebElement nextMonthArrow = driver.findElement(By.xpath("//button[@class='ant-picker-header-next-btn']"));
 
 		while (true) {
-			String leftMonthText = getFullMonthName(wait.until(ExpectedConditions.visibilityOfElementLocated(leftMonthBtnLocator)).getText());
+			String leftMonthText = getFullMonthName(
+					wait.until(ExpectedConditions.visibilityOfElementLocated(leftMonthBtnLocator)).getText());
 			int leftMonth = Month.valueOf(leftMonthText.toUpperCase()).getValue();
 			int leftYear = Integer.parseInt(driver.findElement(leftYearBtnLocator).getText());
 
-			String rightMonthText = getFullMonthName(wait.until(ExpectedConditions.visibilityOfElementLocated(rightMonthBtnLocator)).getText());
+			String rightMonthText = getFullMonthName(
+					wait.until(ExpectedConditions.visibilityOfElementLocated(rightMonthBtnLocator)).getText());
 			int rightMonth = Month.valueOf(rightMonthText.toUpperCase()).getValue();
 			int rightYear = Integer.parseInt(driver.findElement(rightYearBtnLocator).getText());
 
 			boolean targetMatchesLeft = (leftMonth == targetDate.getMonthValue() && leftYear == targetDate.getYear());
-			boolean targetMatchesRight = (rightMonth == targetDate.getMonthValue() && rightYear == targetDate.getYear());
+			boolean targetMatchesRight = (rightMonth == targetDate.getMonthValue()
+					&& rightYear == targetDate.getYear());
 
 			if (targetMatchesLeft || targetMatchesRight) {
 				break;
@@ -421,9 +418,8 @@ public class BaseClass {
 
 				// More precise XPath to find the date cell within this panel
 				List<WebElement> dateCells = panel.findElements(By.xpath(
-						".//following::div//tbody//td[contains(@class,'ant-picker-cell ant-picker-cell-in-view') or contains(@class,'ant-picker-cell ant-picker-cell-range-start ant-picker-cell-range-end ant-picker-cell-in-view')]" +
-								"/div[text()='" + targetDayStr + "']"
-						));
+						".//following::div//tbody//td[contains(@class,'ant-picker-cell ant-picker-cell-in-view') or contains(@class,'ant-picker-cell ant-picker-cell-range-start ant-picker-cell-range-end ant-picker-cell-in-view')]"
+								+ "/div[text()='" + targetDayStr + "']"));
 
 				System.out.println("Found " + dateCells.size() + " matching dates in this panel");
 
@@ -431,8 +427,9 @@ public class BaseClass {
 					System.out.println("Clicking date: " + dateCells.get(0).getText());
 					try {
 						// Scroll into view and click with JavaScript if regular click fails
-						((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", dateCells.get(0));
-						((JavascriptExecutor)driver).executeScript("arguments[0].click();", dateCells.get(0));
+						((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);",
+								dateCells.get(0));
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", dateCells.get(0));
 						System.out.println("Successfully clicked date");
 						return;
 					} catch (Exception e) {
@@ -444,8 +441,8 @@ public class BaseClass {
 			}
 		}
 
-		throw new RuntimeException("Target date not found in calendar: " + 
-				targetDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+		throw new RuntimeException(
+				"Target date not found in calendar: " + targetDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
 	}
 
 	private String getFullMonthName(String shortMonthName) {
@@ -467,16 +464,17 @@ public class BaseClass {
 
 	}
 
+	/* END of Creaeted methods for Reports/System Messages in Payapt */
+	/*
+	 * -----------------------------------------------------------------------------
+	 * ---------------------------------------
+	 */
 
-	/*END of Creaeted methods for Reports/System Messages in Payapt */
-	/* --------------------------------------------------------------------------------------------------------------------*/
-
-
-	/* Common Utility Methods*/
+	/* Common Utility Methods */
 
 	public static void clickusingaction(WebElement ele) throws InterruptedException {
 
-		Actions ac=new Actions(driver);
+		Actions ac = new Actions(driver);
 		ac.click(ele).build().perform();
 	}
 
@@ -484,25 +482,26 @@ public class BaseClass {
 		Thread.sleep(2000);
 		driver.navigate().back();
 	}
+
 	public static void refresh() throws InterruptedException {
 		driver.navigate().refresh();
 		Thread.sleep(2000);
 	}
 
-
 	public void assertEquals(String actual, String expected, String ele) {
 		SoftAssert softAssert = new SoftAssert();
 		boolean result = actual.equals(expected);
 
-		//	    String elementName = getElementName(ele); // Fetch element name dynamically
-		String logMessage = "Assertion Validation on Element " + ele + ": Expected='" + expected + "', Actual='" + actual + "'";
+		// String elementName = getElementName(ele); // Fetch element name dynamically
+		String logMessage = "Assertion Validation on Element " + ele + ": Expected='" + expected + "', Actual='"
+				+ actual + "'";
 
 		if (result) {
-			Extentlogger.pass(logMessage,true);
-			//	        logger.info(logMessage);
+			Extentlogger.pass(logMessage, true);
+			// logger.info(logMessage);
 		} else {
 			Extentlogger.fail(logMessage);
-			//	        logger.error(logMessage);
+			// logger.error(logMessage);
 		}
 		softAssert.assertEquals(actual, expected, "Mismatch Found!");
 	}
@@ -514,65 +513,64 @@ public class BaseClass {
 
 		if (condition) {
 			Extentlogger.pass(logMessage);
-			//	        logger.info(logMessage);
+			// logger.info(logMessage);
 		} else {
 			Extentlogger.fail(logMessage);
-			//	        logger.error(logMessage);
+			// logger.error(logMessage);
 		}
 
 		softAssert.assertTrue(condition, "Condition Failed: " + message);
 	}
 
-	public  void scrollByVisibilityOfElement(WebDriver driver, WebElement ele) {
+	public void scrollByVisibilityOfElement(WebDriver driver, WebElement ele) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].scrollIntoView(true);", ele);
-		Extentlogger.info("Scrolled to "+getElementName(ele));
-		//		logger.info("Scrolled to "+getElementName(ele));
+		Extentlogger.info("Scrolled to " + getElementName(ele));
+		// logger.info("Scrolled to "+getElementName(ele));
 
-	}	
-	public  void clickelement(WebElement element) {
+	}
+
+	public void clickelement(WebElement element) {
 		if (element == null) {
 			throw new IllegalStateException("WebElement is null. Ensure PageFactory.initElements() was called.");
 		}
 		try {
-			Waitforclickable(element,10);
+			Waitforclickable(element, 10);
 			String text = Gettext(element);
 			element.click();
 			if (!text.isEmpty()) {
 				Extentlogger.pass(text + " is Clicked", false);
-				//				logger.info(text + " is Clicked", false);
+				// logger.info(text + " is Clicked", false);
 			}
 		} catch (WebDriverException e) {
 			System.err.println("Failed to click element: " + e.getMessage());
-			Extentlogger.fail(getElementName(element)+ " is not Clicked", false);
-			//			logger.error(getElementName(element)+ " is not Clicked", false);
+			Extentlogger.fail(getElementName(element) + " is not Clicked", false);
+			// logger.error(getElementName(element)+ " is not Clicked", false);
 		}
 	}
 
-	public void clickelementwithname(WebElement element,String elename) {
+	public void clickelementwithname(WebElement element, String elename) {
 		try {
-			Waitforclickable(element,10);
+			Waitforclickable(element, 10);
 
 			String text = element.getText().isEmpty() ? elename : element.getText();
 			element.click();
 			System.out.println(text + " is Clicked");
-			Extentlogger.pass(text + " is Clicked",true);
-			//	            logger.info(text + " is Clicked",true);
+			Extentlogger.pass(text + " is Clicked", true);
+			// logger.info(text + " is Clicked",true);
 
 		} catch (Exception e) {
-			System.err.println("Failed to click element: "+elename+" " + e.getMessage());
-			Extentlogger.fail("Failed to click element: "+elename+" " + e.getMessage(),true);
-			//			logger.error("Failed to click element: "+elename+" " + e.getMessage(),true);
+			System.err.println("Failed to click element: " + elename + " " + e.getMessage());
+			Extentlogger.fail("Failed to click element: " + elename + " " + e.getMessage(), true);
+			// logger.error("Failed to click element: "+elename+" " + e.getMessage(),true);
 		}
 	}
-
 
 	public static void Waitforclickable(WebElement element, int seconds) {
 		if (element == null) {
 			throw new IllegalArgumentException("Element is null, cannot wait for clickability.");
 		}
-		new WebDriverWait(driver, Duration.ofSeconds(seconds))
-		.until(ExpectedConditions.elementToBeClickable(element));
+		new WebDriverWait(driver, Duration.ofSeconds(seconds)).until(ExpectedConditions.elementToBeClickable(element));
 	}
 
 	public static String Gettext(WebElement element) {
@@ -580,54 +578,51 @@ public class BaseClass {
 	}
 
 	public static Boolean isdisplay(WebElement element) {
-		if(!Gettext(element).isEmpty()) {
-			Extentlogger.info(Gettext(element)+" is Display: "+element.isDisplayed());
-			//			logger.info(Gettext(element)+" is Display: "+element.isDisplayed());
+		if (!Gettext(element).isEmpty()) {
+			Extentlogger.info(Gettext(element) + " is Display: " + element.isDisplayed());
+			// logger.info(Gettext(element)+" is Display: "+element.isDisplayed());
 			return element.isDisplayed();
-		}else {
-			Extentlogger.info(Gettext(element)+" is not Displayed: "+element.isDisplayed());
-			//			logger.info(Gettext(element)+" is not Displayed: "+element.isDisplayed());
+		} else {
+			Extentlogger.info(Gettext(element) + " is not Displayed: " + element.isDisplayed());
+			// logger.info(Gettext(element)+" is not Displayed: "+element.isDisplayed());
 			return element.isDisplayed();
 		}
-	}	
+	}
 
-
-	public static void sendkeys(WebElement element,String value) 
-	{
-		element.sendKeys(value,Keys.ENTER);
+	public static void sendkeys(WebElement element, String value) {
+		element.sendKeys(value, Keys.ENTER);
 		String placeholder = Getattribute(element, "placeholder");
 		if (placeholder != null && !placeholder.isEmpty()) {
 			Extentlogger.pass(value + " is entered in " + placeholder + " successfully", false);
-			//			logger.info(value + " is entered in " + placeholder + " successfully", false);
-		}
-		else 
-		{
+			// logger.info(value + " is entered in " + placeholder + " successfully",
+			// false);
+		} else {
 			Extentlogger.pass(value + " is entered successfully", false);
-			//			logger.info(value + " is entered successfully", false);
+			// logger.info(value + " is entered successfully", false);
 		}
 	}
-	public static void entersendkeys(WebElement element) 
-	{
+
+	public static void entersendkeys(WebElement element) {
 		element.sendKeys(Keys.ENTER);
 	}
-	public static void tabsendkeys(WebElement element) 
-	{
+
+	public static void tabsendkeys(WebElement element) {
 		element.sendKeys(Keys.TAB);
 	}
-	public static void escsendkeys(WebElement element) 
-	{
+
+	public static void escsendkeys(WebElement element) {
 		element.sendKeys(Keys.ESCAPE);
 	}
-	public static void activeelementsendkeys(String value ) 
-	{
+
+	public static void activeelementsendkeys(String value) {
 		driver.switchTo().activeElement().sendKeys(value);
 	}
 
-	private static String Getattribute(WebElement element,String attributename) {
+	private static String Getattribute(WebElement element, String attributename) {
 		return element.getAttribute(attributename);
 	}
 
-	public static boolean JSClick(WebDriver driver, WebElement ele, String locatorName ) {
+	public static boolean JSClick(WebDriver driver, WebElement ele, String locatorName) {
 		boolean flag = false;
 		try {
 			JavascriptExecutor executor = (JavascriptExecutor) driver;
@@ -641,25 +636,26 @@ public class BaseClass {
 
 		} finally {
 			if (flag) {
-				System.out.println("Click Action is performed on "+locatorName);
-				Extentlogger.pass("Click Action is performed on "+locatorName.toString());	
-				//				logger.info("Click Action is performed on "+locatorName.toString());	
+				System.out.println("Click Action is performed on " + locatorName);
+				Extentlogger.pass("Click Action is performed on " + locatorName.toString());
+				// logger.info("Click Action is performed on "+locatorName.toString());
 			} else if (!flag) {
-				System.out.println("Click Action is not performed on "+locatorName);
+				System.out.println("Click Action is not performed on " + locatorName);
 			}
 		}
 		return flag;
 	}
-	public static boolean launchUrl(WebDriver driver,String url) {
+
+	public static boolean launchUrl(WebDriver driver, String url) {
 		try {
 			driver.get(url);
-			Extentlogger.info("Successfully launched \"" + url + "\"");	
-			//			logger.info("Successfully launched \"" + url + "\"");	
+			Extentlogger.info("Successfully launched \"" + url + "\"");
+			// logger.info("Successfully launched \"" + url + "\"");
 			return true;
 		} catch (Exception e) {
-			//			System.out.println("Failed to launch \"" + url + "\"");
+			// System.out.println("Failed to launch \"" + url + "\"");
 			Extentlogger.info("Failed to launch \"" + url + "\"");
-			//			logger.info("Failed to launch \"" + url + "\"");
+			// logger.info("Failed to launch \"" + url + "\"");
 			return false;
 		}
 	}
@@ -668,24 +664,24 @@ public class BaseClass {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(seconds));
 	}
 
-	public  void visibleofele(WebDriver driver, WebElement element, String elename ) {
-		WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+	public void visibleofele(WebDriver driver, WebElement element, String elename) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		wait.until(ExpectedConditions.visibilityOf(element));
-		Extentlogger.info("Element is Visibile: "+elename,true);
-		//		logger.info("Element is Visibile: "+elename);
+		Extentlogger.info("Element is Visibile: " + elename, true);
+		// logger.info("Element is Visibile: "+elename);
 	}
 
-	public static Boolean invisibilityofelement(WebDriver driver, WebElement element,String name ) {
-		WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(30));
-		Extentlogger.info(name+" Element is now invisibile",true);
-		//		logger.info(name+" Element is now invisibile");
+	public static Boolean invisibilityofelement(WebDriver driver, WebElement element, String name) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		Extentlogger.info(name + " Element is now invisibile", true);
+		// logger.info(name+" Element is now invisibile");
 		return wait.until(ExpectedConditions.invisibilityOf(element));
 	}
 
 	public static void pageLoadTimeOut(WebDriver driver, int timeOut) {
 		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(timeOut));
 		Extentlogger.info("Page load timeout.");
-		//		logger.info("Page load timeout.");
+		// logger.info("Page load timeout.");
 
 	}
 
@@ -693,21 +689,21 @@ public class BaseClass {
 		if (elements == null || elements.isEmpty()) {
 			System.out.println("No elements found to click.");
 			Extentlogger.info("No elements found to click.");
-			//			logger.info("No elements found to click.");
+			// logger.info("No elements found to click.");
 			return null;
 		}
 		Random random = new Random();
-		System.out.println(elements.size()); 
+		System.out.println(elements.size());
 		int randomIndex = random.nextInt(elements.size()); // Selects a random index
 		WebElement randomElement = elements.get(randomIndex);
 		System.out.println(randomElement);
-		System.out.println("random index"+randomIndex);
+		System.out.println("random index" + randomIndex);
 		System.out.println(randomElement.getAttribute("alt"));
 		return randomElement.getAttribute("alt");
 	}
 
 	public static String getScreenShot(WebDriver driver, String screenshotName) throws IOException {
-		String dateName = new SimpleDateFormat("yyyyMMddhhmmss").format(new java.util.Date());	
+		String dateName = new SimpleDateFormat("yyyyMMddhhmmss").format(new java.util.Date());
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
 		String directory = System.getProperty("user.dir") + "/Screenshots/";
@@ -715,7 +711,7 @@ public class BaseClass {
 		String destination = directory + screenshotName + dateName + ".png";
 		File finalDestination = new File(destination);
 		FileUtils.copyFile(source, finalDestination);
-		return destination; 
+		return destination;
 	}
 
 	public String getElementName(WebElement element) {
@@ -737,12 +733,12 @@ public class BaseClass {
 	}
 
 	public static void Browserinfo() {
-		ExtentReport.extent.setSystemInfo("URL",prop.getProperty("testurl"));
-		ExtentReport.extent.setSystemInfo("Username",prop.getProperty("username"));
-		ExtentReport.extent.setSystemInfo("Password",prop.getProperty("password"));
+		ExtentReport.extent.setSystemInfo("URL", prop.getProperty("testurl"));
+		ExtentReport.extent.setSystemInfo("Username", prop.getProperty("username"));
+		ExtentReport.extent.setSystemInfo("Password", prop.getProperty("password"));
 
-		ExtentReport.extent.setSystemInfo("Browser Name",BrowserName);
-		ExtentReport.extent.setSystemInfo("Browser Version",BrowserVersion);
+		ExtentReport.extent.setSystemInfo("Browser Name", BrowserName);
+		ExtentReport.extent.setSystemInfo("Browser Version", BrowserVersion);
 	}
 
 	public void assertLoaderAppears(WebElement element) {
@@ -750,17 +746,17 @@ public class BaseClass {
 		WebElement loadingElement = wait.until(ExpectedConditions.visibilityOf(element));
 		if (loadingElement.isDisplayed()) {
 			System.out.println("Loader is displayed.");
-			Extentlogger.info("Loader is displayed.",true);
+			Extentlogger.info("Loader is displayed.", true);
 		} else {
 			System.out.println("Loader is not displayed.");
 			Extentlogger.info("Loader is not displayed.");
 		}
 	}
 
-	/* END of Common Utility Methods*/
-	/* ----------------------------------------------------------------------------------------------------------------------------*/
-
-
+	/* END of Common Utility Methods */
+	/*
+	 * -----------------------------------------------------------------------------
+	 * -----------------------------------------------
+	 */
 
 }
-
