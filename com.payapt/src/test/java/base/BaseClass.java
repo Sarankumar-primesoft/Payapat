@@ -109,10 +109,10 @@ public class BaseClass {
 		WebDriverManager.edgedriver().setup();
 
 		String browserName=prop.getProperty("browser");
-		boolean isHeadless = Boolean.parseBoolean(prop.getProperty("headless", "false"));
-		if (browserName == null) {
-			throw new RuntimeException("Browser property not set in config file!");
-		}
+//		boolean isHeadless = Boolean.parseBoolean(prop.getProperty("headless", "false"));
+//		if (browserName == null) {
+//			throw new RuntimeException("Browser property not set in config file!");
+//		}
 
 		switch (browserName.toLowerCase()) {
 		case "chrome":
@@ -132,13 +132,13 @@ public class BaseClass {
 
 		    chromeOptions.setExperimentalOption("prefs", chromePrefs);
 
-		    if (isHeadless) {
+//		    if (isHeadless) {
 		        chromeOptions.addArguments("--headless=new");
 		        chromeOptions.addArguments("--window-size=1920,1080"); // Mandatory
 		        chromeOptions.addArguments("--disable-gpu");
 		        chromeOptions.addArguments("--no-sandbox");
 		        chromeOptions.addArguments("--disable-dev-shm-usage");
-		    }
+//		    }
 
 		    driver = new ChromeDriver(chromeOptions);
 		    driver.manage().window().setSize(new Dimension(1920, 1080));

@@ -102,7 +102,7 @@ public class Extentlogger extends BaseClass {
 //
 	
 	public static String Base64image() {
-		return ((TakesScreenshot)driver).getScreenshotAs(OutputType.BASE64);
+		return "data:image/png;base64," + ((TakesScreenshot)driver).getScreenshotAs(OutputType.BASE64);
 	}
 	/**
 	 * passed withonly message
