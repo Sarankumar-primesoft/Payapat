@@ -136,7 +136,7 @@ public class BaseClass {
 			chromeOptions.addArguments("--disable-dev-shm-usage");
 
 			driver = new ChromeDriver(chromeOptions);
-//			driver.manage().window().setSize(new Dimension(1920, 1080));
+			driver.manage().window().setSize(new Dimension(1920, 1080));
 			js = (JavascriptExecutor) driver;
 			actions = new Actions(driver);
 			break;
