@@ -16,7 +16,7 @@ public class LoginTest extends BaseClass {
 
 	sendkeys(logintest.username, prop.getProperty("username"));
 	sendkeys(logintest.password, prop.getProperty("password"));
-	clickelement(logintest.signbtn);
+	JSClick(driver,logintest.signbtn,"Signin btn");
 	
 	}
 }

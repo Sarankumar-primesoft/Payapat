@@ -111,35 +111,42 @@ public class BaseClass {
 
 		switch (browserName.toLowerCase()) {
 
-		case "chrome":
-			ChromeOptions chromeOptions = new ChromeOptions();
+	    case "chrome":
+	        ChromeOptions chromeOptions = new ChromeOptions();
 
-			String downloadPath = System.getProperty("user.dir") + File.separator + "extent-report";
-			cleanDownloadFolder(downloadPath);
-			File file = new File(downloadPath);
-			if (!file.exists())
-				file.mkdirs();
+	        String downloadPath = System.getProperty("user.dir") + File.separator + "extent-report";
+	        cleanDownloadFolder(downloadPath);
+	        File file = new File(downloadPath);
+	        if (!file.exists())
+	            file.mkdirs();
 
-			Map<String, Object> chromePrefs = new HashMap<>();
-			chromePrefs.put("download.default_directory", downloadPath);
-			chromePrefs.put("download.prompt_for_download", false);
-			chromePrefs.put("plugins.always_open_pdf_externally", true);
-			chromePrefs.put("profile.default_content_settings.popups", 0);
-			chromePrefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
+	        Map<String, Object> chromePrefs = new HashMap<>();
+	        chromePrefs.put("download.default_directory", downloadPath);
+	        chromePrefs.put("download.prompt_for_download", false);
+	        chromePrefs.put("plugins.always_open_pdf_externally", true);
+	        chromePrefs.put("profile.default_content_settings.popups", 0);
+	        chromePrefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
+	        chromeOptions.setExperimentalOption("prefs", chromePrefs);
 
-			chromeOptions.setExperimentalOption("prefs", chromePrefs);
+	        // 🔍 Detect Jenkins environment
+	        boolean isJenkins = System.getenv("JENKINS_HOME") != null;
 
-			chromeOptions.addArguments("--headless=new");
-			chromeOptions.addArguments("--window-size=1920,1080"); // Mandatory
-			chromeOptions.addArguments("--disable-gpu");
-			chromeOptions.addArguments("--no-sandbox");
-			chromeOptions.addArguments("--disable-dev-shm-usage");
+	        if (isJenkins) {
+	            chromeOptions.addArguments("--headless=new");
+	            chromeOptions.addArguments("--window-size=1920,1080");
+	            chromeOptions.addArguments("--disable-gpu");
+	            chromeOptions.addArguments("--no-sandbox");
+	            chromeOptions.addArguments("--disable-dev-shm-usage");
+	        }
 
-			driver = new ChromeDriver(chromeOptions);
-			driver.manage().window().setSize(new Dimension(1920, 1080));
-			js = (JavascriptExecutor) driver;
-			actions = new Actions(driver);
-			break;
+	        driver = new ChromeDriver(chromeOptions);
+
+	        // Apply window size for both modes (helps ensure consistency)
+	        driver.manage().window().setSize(new Dimension(1920, 1080));
+
+	        js = (JavascriptExecutor) driver;
+	        actions = new Actions(driver);
+	        break;
 		case "firefox":
 			driver = new FirefoxDriver();
 			break;
@@ -156,12 +163,12 @@ public class BaseClass {
 		BrowserVersion = capabilities.getBrowserVersion();
 
 		ChromeOptions options = new ChromeOptions();
-		options.setExperimentalOption("prefs",
-				Map.of("download.default_directory", "C:\\Downloads", "profile.default_content_settings.popups", 0,
-						"profile.content_settings.exceptions.automatic_downloads.*.setting", 1));
-		options.addArguments("--headless=new"); // or just "--headless" for older versions
-		options.addArguments("--window-size=1920,1080");// IMPORTANT!
-		options.addArguments("--disable-gpu"); // Optional but recommended
+//		options.setExperimentalOption("prefs",
+//				Map.of("download.default_directory", "C:\\Downloads", "profile.default_content_settings.popups", 0,
+//						"profile.content_settings.exceptions.automatic_downloads.*.setting", 1));
+//		options.addArguments("--headless=new"); // or just "--headless" for older versions
+//		options.addArguments("--window-size=1920,1080");// IMPORTANT!
+//		options.addArguments("--disable-gpu"); // Optional but recommended
 
 		System.out.println("driver : " + driver);
 
