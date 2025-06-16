@@ -128,7 +128,7 @@ public class BaseClass {
 
 			chromeOptions.setExperimentalOption("prefs", chromePrefs);
 			if (isHeadless) {
-				chromeOptions.addArguments("--headless=new");
+				chromeOptions.addArguments("--headless");
 				chromeOptions.addArguments("--window-size=1920,1080");
 				chromeOptions.addArguments("--disable-gpu");
 			}
