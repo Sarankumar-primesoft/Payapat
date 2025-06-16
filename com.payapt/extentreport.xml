@@ -27,7 +27,7 @@
     </systemInfo>
 
     <!-- Enable Screenshot Thumbnails -->
-    <thumbnailForBase64>false</thumbnailForBase64>
+    <thumbnailForBase64>true</thumbnailForBase64>
 <!-- Custom Logo & Styling -->
 <css>
   <![CDATA[
