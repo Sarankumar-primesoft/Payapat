@@ -53,7 +53,7 @@ public class Fednow_ExecutionsSummary extends BaseClass{
 
 		// Wait for pending test cases to become 0
 
-		long maxWaitTime = 5 * 60 * 1000; // 5 minutes in milliseconds
+		long maxWaitTime =3 * 60 * 1000; // 5 minutes in milliseconds
 		boolean pendingZero = false;
 
 		while (System.currentTimeMillis() - FednowBatchTest.FednowstartTime < maxWaitTime) {
@@ -96,7 +96,14 @@ public class Fednow_ExecutionsSummary extends BaseClass{
 		}
 
 		if (!pendingZero) {
-			Extentlogger.fail("Pending test cases did not reach 0 within 10 minutes");
+			actions.moveToElement(exectuionpage.resultsclmn).perform();
+			Thread.sleep(1000); // Wait for tooltip to appear
+			List<WebElement> tooltip = exectuionpage.tooltip;
+			for (WebElement webElement : tooltip) {
+				System.out.println(webElement.getText());
+				Extentlogger.info(webElement.getText());
+			}
+			Extentlogger.fail("Pending test cases did not reach 0 within "+(maxWaitTime/60000)+" minutes",true);
 		}
 
 		clickelementwithname(exectuionpage.downloadicon, "Download btn");

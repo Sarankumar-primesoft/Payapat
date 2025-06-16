@@ -3,15 +3,15 @@
 <suite name="Suite">
 
 	<listeners>
-<!--		<listener class-name="com.listeners.Testinfo" />-->
+		<!--		<listener class-name="com.listeners.Testinfo" />-->
 		<listener class-name="com.listeners.AnnotationListerners" />
 	</listeners>
 	<test thread-count="5" name="Test">
 		<classes>
 			<class name="com.test.LoginTest" />
-						<class name="IndividualFlows.FednowBatchTest" />
+			<class name="IndividualFlows.FednowBatchTest" />
 			<class name="IndividualFlows.Reports_AccountReportingFednow" />
-					<class name="IndividualFlows.Reports_RetrivalRequestFednow" />
+			<class name="IndividualFlows.Reports_RetrivalRequestFednow" />
 			<class name="IndividualFlows.Reports_BroadcastMessagesFednow" />
 			<class name="IndividualFlows.Reports_ParticipantFileFednow" />
 			<class name="IndividualFlows.Fednow_ExecutionsSummary" />

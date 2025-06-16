@@ -99,7 +99,14 @@ public class Fedwire_ExecutionsSummaryTest extends BaseClass{
 		}
 
 		if (!pendingZero) {
-			Extentlogger.fail("Pending test cases did not reach 0 within 10 minutes");
+			actions.moveToElement(exectuionpage.resultsclmn).perform();
+			Thread.sleep(1000); // Wait for tooltip to appear
+			List<WebElement> tooltip = exectuionpage.tooltip;
+			for (WebElement webElement : tooltip) {
+				System.out.println(webElement.getText());
+				Extentlogger.info(webElement.getText());
+			}
+			Extentlogger.fail("Pending test cases did not reach 0 within "+(maxWaitTime/60000)+" minutes");
 		}
 
 		clickelementwithname(exectuionpage.downloadicon, "Download btn");
