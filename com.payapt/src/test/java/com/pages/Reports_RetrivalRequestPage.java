@@ -36,9 +36,9 @@ public class Reports_RetrivalRequestPage extends BaseClass {
 	public WebElement MenuListRetrivalRequest;
 	@FindBy(xpath = "(//div[@id='demo-simple-select-autowidth'])[1]")
 	public WebElement paymentservicedropdown;
-	@FindBy(xpath = "//div[contains(@class,'MuiPaper-root MuiPaper-elevation')]//ul[1]/li[2]")
+	@FindBy(xpath = "//div[contains(@class,'MuiPaper-root MuiPaper-elevation')]//ul[1]/li[contains(text(),'FedNow')]")
 	public WebElement fednowoption;
-	@FindBy(xpath = "//div[contains(@class,'MuiPaper-root MuiPaper-elevation')]//ul[1]/li[4]")
+	@FindBy(xpath = "//div[contains(@class,'MuiPaper-root MuiPaper-elevation')]//ul[1]/li[contains(text(),'Fedwire')]")
 	public WebElement fedwireoption;
 	@FindBy(xpath = "//p[contains(text(),'Select Message Type')]//following::div[contains(.,'Select Message Type') and @role='combobox']")
 	public WebElement SelectmessagesTypeDropdown;

@@ -17,12 +17,12 @@ public class Reports_AccountReportingPage extends BaseClass {
 	public WebElement MenuListAccountReporting;
 	@FindBy(xpath = "(//div[@id='demo-simple-select-autowidth'])[1]")
 	public WebElement paymentservicedropdown;
-	//	@FindBy(xpath = "//ul[@role='listbox']/li[text()='FedNow']")
-	@FindBy(xpath = "//div[contains(@class,'MuiPaper-root MuiPaper-elevation')]//ul[1]/li[2]")
+
+	@FindBy(xpath = "//div[contains(@class,'MuiPaper-root MuiPaper-elevation')]//ul[1]/li[contains(text(),'FedNow')]")
 	public WebElement fednowoption;
-	//	@FindBy(xpath = "//ul[@role='listbox']/li[text()='Fedwire']")
-	@FindBy(xpath = "//div[contains(@class,'MuiPaper-root MuiPaper-elevation')]//ul[1]/li[4]")
+	@FindBy(xpath = "//div[contains(@class,'MuiPaper-root MuiPaper-elevation')]//ul[1]/li[contains(text(),'Fedwire')]")
 	public WebElement fedwireoption;
+
 	@FindBy(xpath = "//div[contains(.,'Select Report Type') and @role='combobox']")
 	public WebElement selectReportType;
 
