@@ -35,71 +35,71 @@ public class Extentlogger extends BaseClass {
 
 	    return screenshotPath;
 	}
-	private static boolean isFileScreenshotMode() {
-	    return prop.getProperty("screenshot.mode").equalsIgnoreCase("file");
-	}
-
-
-	public static void pass(String message, boolean needscreenshot) {
-	    if (prop.getProperty("passedstepsscreenshot").equalsIgnoreCase("yes") && needscreenshot) {
-	        if (isFileScreenshotMode()) {
-	            String path = captureScreenshotToFile(message.replace(" ", "_"));
-	            ExtentManager.getExtentTest().pass(message,
-	                MediaEntityBuilder.createScreenCaptureFromPath(path).build());
-	        } else {
-	            ExtentManager.getExtentTest().pass(message,
-	                MediaEntityBuilder.createScreenCaptureFromBase64String(Base64image()).build());
-	        }
-	    } else {
-	        pass(message);
-	    }
-	}
-	public static void fail(String message, boolean needscreenshot) {
-	    if (prop.getProperty("failedstepsscreenshot").equalsIgnoreCase("yes") && needscreenshot) {
-	        if (isFileScreenshotMode()) {
-	            String path = captureScreenshotToFile(message.replace(" ", "_"));
-	            ExtentManager.getExtentTest().fail(message + " is failed",
-	                MediaEntityBuilder.createScreenCaptureFromPath(path).build());
-	        } else {
-	            ExtentManager.getExtentTest().fail(message + " is failed",
-	                MediaEntityBuilder.createScreenCaptureFromBase64String(Base64image()).build());
-	        }
-	    } else {
-	        fail(message);
-	    }
-	}
-
-	public static void skip(String message, boolean needscreenshot) {
-	    if (prop.getProperty("skippedstepsscreenshot").equalsIgnoreCase("yes") && needscreenshot) {
-	        if (isFileScreenshotMode()) {
-	            String path = captureScreenshotToFile(message.replace(" ", "_"));
-	            ExtentManager.getExtentTest().skip(message + " is Skipped",
-	                MediaEntityBuilder.createScreenCaptureFromPath(path).build());
-	        } else {
-	            ExtentManager.getExtentTest().skip(message + " is Skipped",
-	                MediaEntityBuilder.createScreenCaptureFromBase64String(Base64image()).build());
-	        }
-	    } else {
-	        skip(message);
-	    }
-	}
-
-	
-	public static void info(String message, boolean needscreenshot) {
-	    if (prop.getProperty("infostepsscreenshot").equalsIgnoreCase("yes") && needscreenshot) {
-	        if (isFileScreenshotMode()) {
-	            String path = captureScreenshotToFile(message.replace(" ", "_"));
-	            ExtentManager.getExtentTest().info(message,
-	                MediaEntityBuilder.createScreenCaptureFromPath(path).build());
-	        } else {
-	            ExtentManager.getExtentTest().info(message,
-	                MediaEntityBuilder.createScreenCaptureFromBase64String(Base64image()).build());
-	        }
-	    } else {
-	        info(message);
-	    }
-	}
-
+//	private static boolean isFileScreenshotMode() {
+//	    return prop.getProperty("screenshot.mode").equalsIgnoreCase("file");
+//	}
+//
+//
+//	public static void pass(String message, boolean needscreenshot) {
+//	    if (prop.getProperty("passedstepsscreenshot").equalsIgnoreCase("yes") && needscreenshot) {
+//	        if (isFileScreenshotMode()) {
+//	            String path = captureScreenshotToFile(message.replace(" ", "_"));
+//	            ExtentManager.getExtentTest().pass(message,
+//	                MediaEntityBuilder.createScreenCaptureFromPath(path).build());
+//	        } else {
+//	            ExtentManager.getExtentTest().pass(message,
+//	                MediaEntityBuilder.createScreenCaptureFromBase64String(Base64image()).build());
+//	        }
+//	    } else {
+//	        pass(message);
+//	    }
+//	}
+//	public static void fail(String message, boolean needscreenshot) {
+//	    if (prop.getProperty("failedstepsscreenshot").equalsIgnoreCase("yes") && needscreenshot) {
+//	        if (isFileScreenshotMode()) {
+//	            String path = captureScreenshotToFile(message.replace(" ", "_"));
+//	            ExtentManager.getExtentTest().fail(message + " is failed",
+//	                MediaEntityBuilder.createScreenCaptureFromPath(path).build());
+//	        } else {
+//	            ExtentManager.getExtentTest().fail(message + " is failed",
+//	                MediaEntityBuilder.createScreenCaptureFromBase64String(Base64image()).build());
+//	        }
+//	    } else {
+//	        fail(message);
+//	    }
+//	}
+//
+//	public static void skip(String message, boolean needscreenshot) {
+//	    if (prop.getProperty("skippedstepsscreenshot").equalsIgnoreCase("yes") && needscreenshot) {
+//	        if (isFileScreenshotMode()) {
+//	            String path = captureScreenshotToFile(message.replace(" ", "_"));
+//	            ExtentManager.getExtentTest().skip(message + " is Skipped",
+//	                MediaEntityBuilder.createScreenCaptureFromPath(path).build());
+//	        } else {
+//	            ExtentManager.getExtentTest().skip(message + " is Skipped",
+//	                MediaEntityBuilder.createScreenCaptureFromBase64String(Base64image()).build());
+//	        }
+//	    } else {
+//	        skip(message);
+//	    }
+//	}
+//
+//	
+//	public static void info(String message, boolean needscreenshot) {
+//	    if (prop.getProperty("infostepsscreenshot").equalsIgnoreCase("yes") && needscreenshot) {
+//	        if (isFileScreenshotMode()) {
+//	            String path = captureScreenshotToFile(message.replace(" ", "_"));
+//	            ExtentManager.getExtentTest().info(message,
+//	                MediaEntityBuilder.createScreenCaptureFromPath(path).build());
+//	        } else {
+//	            ExtentManager.getExtentTest().info(message,
+//	                MediaEntityBuilder.createScreenCaptureFromBase64String(Base64image()).build());
+//	        }
+//	    } else {
+//	        info(message);
+//	    }
+//	}
+//
 	
 	public static String Base64image() {
 		return ((TakesScreenshot)driver).getScreenshotAs(OutputType.BASE64);
@@ -133,7 +133,7 @@ public class Extentlogger extends BaseClass {
 //		log.info(message);
 	}
 	
-	public static void info1(String message,boolean needscreenshot) {
+	public static void info(String message,boolean needscreenshot) {
 		if(prop.getProperty("infostepsscreenshot").equalsIgnoreCase("yes")&& needscreenshot) {
 //			log.info(message);
 			ExtentManager.getExtentTest().info(message,
@@ -150,7 +150,7 @@ public class Extentlogger extends BaseClass {
 	 * @param message Enter the message 
 	 * @param needscreenshot need screenshot? (true or false)
 	 */
-	public static void pass1(String message,boolean needscreenshot) {
+	public static void pass(String message,boolean needscreenshot) {
 		if(prop.getProperty("passedstepsscreenshot").equalsIgnoreCase("yes")&& needscreenshot) {
 //			log.info(message);
 			ExtentManager.getExtentTest().pass(message.concat(" is passed"),
@@ -164,7 +164,7 @@ public class Extentlogger extends BaseClass {
 	 * @param message Enter the message
 	 * @param needscreenshot need screenshot? (true or false)
 	 */
-	public static void fail1(String message,boolean needscreenshot) {
+	public static void fail(String message,boolean needscreenshot) {
 		if(prop.getProperty("failedstepsscreenshot").equalsIgnoreCase("yes")&& needscreenshot) {
 //			log.error(message);
 			ExtentManager.getExtentTest().fail(message.concat(" is failed"),
@@ -178,7 +178,7 @@ public class Extentlogger extends BaseClass {
 	 * @param message Enter the message
 	 * @param needscreenshot need screenshot? (true or false)
 	 */
-	public static void skip1(String message,boolean needscreenshot) {
+	public static void skip(String message,boolean needscreenshot) {
 		if(prop.getProperty("skippedstepsscreenshot").equalsIgnoreCase("yes")&& needscreenshot) {
 //			log.info(message);
 			ExtentManager.getExtentTest().skip(message.concat(" is Skipped"),
