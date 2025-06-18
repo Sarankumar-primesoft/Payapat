@@ -30,6 +30,8 @@ public class FedwireBatchTest extends BaseClass{
 
 		clickelementwithname(batchpage.tabbatch,"Switch to Batch tab");
 		
+		JSClick(driver,batchpage.batchfiletoggle, "Changing toggle to Batch file");
+		
 		batchpage.tabsearch.sendKeys(Keys.CONTROL + "a");
 		batchpage.tabsearch.sendKeys(Keys.DELETE);
 		
