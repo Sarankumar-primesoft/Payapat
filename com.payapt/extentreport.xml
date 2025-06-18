@@ -11,8 +11,8 @@
     <thumbnailForBase64>false</thumbnailForBase64>
 
     <!-- Report Title & Name -->
-    <documentTitle>PAYAPT Automation Report</documentTitle>
-    <reportName>PAYAPT Automation Report</reportName>
+    <documentTitle>PAYAPT TCH Server Automation Report</documentTitle>
+    <reportName>PAYAPT TCH Server Automation Report</reportName>
 	<logo>Configuration/download.png</logo>
 
     <!-- Timestamp format -->
