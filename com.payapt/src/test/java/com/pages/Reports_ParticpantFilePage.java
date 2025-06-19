@@ -94,6 +94,7 @@ public class Reports_ParticpantFilePage extends BaseClass {
 		clickelementwithname(PFreport.paymentservicedropdown, "Payment service dropdown");
 		JSClick(driver,PFreport.fedwireoption, "Fedwire Payment service.");
 
+		visibleofele(driver,PFreport.generatebtn1,"Generate Fednow participant file btn");
 		clickelementwithname(PFreport.generatebtn1,"Generate Fednow participant file btn");
 		visibleofele(driver, PFreport.generatedAlert, "Generated alert");
 
