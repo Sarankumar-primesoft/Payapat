@@ -19,6 +19,10 @@ public class Reports_ParticipantFileFedwire extends BaseClass{
 		visibleofele(driver, PFreport.MenuListParticipantFile, "Fednow Participant file");
 		clickelementwithname(PFreport.MenuListParticipantFile, "Navigating to Fednow Participant file");
 		
+		clickelementwithname(PFreport.paymentservicedropdown, "Payment service dropdown");
+		JSClick(driver,PFreport.fedwireoption, "Fedwire Payment service.");
+		Thread.sleep(1000);
+		
 		PFreport.FedwireParticipantfile();	
 		Thread.sleep(1000);
 		clickelementwithname(PFreport.resultsClosebtn, "Results Close btn");
