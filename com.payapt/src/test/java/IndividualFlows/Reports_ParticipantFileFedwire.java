@@ -13,6 +13,7 @@ public class Reports_ParticipantFileFedwire extends BaseClass{
 	{
 		refresh();
 		ExtentReport.createTest("Participant File Fedwire Service");
+		PFreport = new Reports_ParticpantFilePage(driver);
 		
 		scrollByVisibilityOfElement(driver, PFreport.Reports);
 		visibleofele(driver, PFreport.MenuListParticipantFile, "Fednow Participant file");
